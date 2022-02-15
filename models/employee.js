@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const userSchema = new mongoose.Schema(
+const EmpSchema = new mongoose.Schema(
   {
     firstName: {
       type: String,
@@ -18,8 +18,9 @@ const userSchema = new mongoose.Schema(
       trim: true,
     },
     age: Number,
+    salary: Number,
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model("User", userSchema);
+module.exports = mongoose.model("Employee", EmpSchema);

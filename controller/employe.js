@@ -1,0 +1,79 @@
+const parseAndSend = require("../util/responseWraper");
+const Employee = require("../models/employee");
+const jwt = require("jsonwebtoken");
+
+export const getEmpData = async (req, res) => {
+  try {
+    const empData = await Employee.find({});
+
+    return parseAndSend(res, true, 200, "emplyee data", empData);
+  } catch (error) {
+    console.log(error);
+    parseAndSend(res, false, 500, "somthing went wrong at our end");
+  }
+};
+export const createEmpData = async (req, res) => {
+  try {
+    const { firstName, lastName, email, age, salary } = JSON.parse(req.body);
+    const empData = await new Employee({
+      firstName,
+      lastName,
+      email,
+      age,
+      salary,
+    }).save();
+    if (!empData) {
+      parseAndSend(res, false, 400, "somthing went wrong with our DB");
+    }
+    const empData = await Employee.find({});
+
+    return parseAndSend(res, true, 200, "New employee Created", empData);
+  } catch (error) {
+    console.log(error);
+    parseAndSend(res, false, 500, "somthing went wrong at our end");
+  }
+};
+
+export const UpdateEmpData = async (req, res) => {
+  try {
+    const { _id, firstName, lastName, email, age, salary } = JSON.parse(
+      req.body
+    );
+
+    const { nModified } = await Employee.updateOne(
+      { _id },
+      {
+        $set: { firstName, lastName, email, age, salary },
+      }
+    );
+
+    if (!nModified) {
+      parseAndSend(
+        res,
+        false,
+        500,
+        "somthing went wrong with our DB not able to update"
+      );
+    }
+    const empData = await Employee.find({});
+
+    return parseAndSend(res, true, 200, "employee Updated", empData);
+  } catch (error) {
+    console.log(error);
+    parseAndSend(res, false, 500, "somthing went wrong at our end");
+  }
+};
+
+export const deleteEmpData = async (req, res) => {
+  try {
+    const { _id } = JSON.parse(req.body);
+
+    await Employee.deleteOne({ _id });
+
+    const empData = await Employee.find({});
+    return parseAndSend(res, true, 200, "employee deleted", empData);
+  } catch (error) {
+    console.log(error);
+    parseAndSend(res, false, 500, "somthing went wrong at our end");
+  }
+};
