@@ -8,7 +8,7 @@ const userRoutes = require("./routes/user");
 const empRoutes = require("./routes/employe");
 
 app.use("/api/user", userRoutes);
-app.use("/api/employe", userRoutes);
+app.use("/api/employe", empRoutes);
 
 env.config();
 const app = express();
