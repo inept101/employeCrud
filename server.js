@@ -5,13 +5,12 @@ import userRoutes from "./routes/user.js";
 import empRoutes from "./routes/employe.js";
 
 const app = express();
+app.use(express.json());
 
 app.use("/api/user", userRoutes);
 app.use("/api/employe", empRoutes);
 
 env.config();
-
-app.use(express.json());
 
 mongoose
   .connect(`${process.env.MONGODB_URI}`, {

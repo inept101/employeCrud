@@ -66,9 +66,7 @@ export const UpdateEmpData = async (req, res) => {
 export const deleteEmpData = async (req, res) => {
   try {
     const { _id } = JSON.parse(req.body);
-
     await Employee.deleteOne({ _id });
-
     const empData = await Employee.find({});
     return parseAndSend(res, true, 200, "employee deleted", empData);
   } catch (error) {
