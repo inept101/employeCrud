@@ -1,6 +1,6 @@
-const parseAndSend = require("../util/responseWraper");
-const User = require("../models/user");
-const jwt = require("jsonwebtoken");
+import jwt from "jsonwebtoken";
+import User from "../models/user.js";
+import parseAndSend from "../util/responseWraper.js";
 
 export const signIn = async (req, res) => {
   try {

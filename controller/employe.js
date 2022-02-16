@@ -1,6 +1,5 @@
-const parseAndSend = require("../util/responseWraper");
-const Employee = require("../models/employee");
-const jwt = require("jsonwebtoken");
+import Employee from "../models/employee.js";
+import parseAndSend from "../util/responseWraper.js";
 
 export const getEmpData = async (req, res) => {
   try {
@@ -9,20 +8,20 @@ export const getEmpData = async (req, res) => {
     return parseAndSend(res, true, 200, "emplyee data", empData);
   } catch (error) {
     console.log(error);
-    parseAndSend(res, false, 500, "somthing went wrong at our end");
+    return parseAndSend(res, false, 500, "somthing went wrong at our end");
   }
 };
 export const createEmpData = async (req, res) => {
   try {
     const { firstName, lastName, email, age, salary } = JSON.parse(req.body);
-    const empData = await new Employee({
+    const newEmp = await new Employee({
       firstName,
       lastName,
       email,
       age,
       salary,
     }).save();
-    if (!empData) {
+    if (!newEmp) {
       parseAndSend(res, false, 400, "somthing went wrong with our DB");
     }
     const empData = await Employee.find({});
@@ -30,7 +29,7 @@ export const createEmpData = async (req, res) => {
     return parseAndSend(res, true, 200, "New employee Created", empData);
   } catch (error) {
     console.log(error);
-    parseAndSend(res, false, 500, "somthing went wrong at our end");
+    return parseAndSend(res, false, 500, "somthing went wrong at our end");
   }
 };
 
@@ -60,7 +59,7 @@ export const UpdateEmpData = async (req, res) => {
     return parseAndSend(res, true, 200, "employee Updated", empData);
   } catch (error) {
     console.log(error);
-    parseAndSend(res, false, 500, "somthing went wrong at our end");
+    return parseAndSend(res, false, 500, "somthing went wrong at our end");
   }
 };
 
@@ -74,6 +73,6 @@ export const deleteEmpData = async (req, res) => {
     return parseAndSend(res, true, 200, "employee deleted", empData);
   } catch (error) {
     console.log(error);
-    parseAndSend(res, false, 500, "somthing went wrong at our end");
+    return parseAndSend(res, false, 500, "somthing went wrong at our end");
   }
 };

@@ -1,17 +1,15 @@
-const express = require("express");
-const env = require("dotenv");
+import express, { Router } from "express";
+import env from "dotenv";
+import mongoose from "mongoose";
+import userRoutes from "./routes/user.js";
+import empRoutes from "./routes/employe.js";
 
-const mongoose = require("mongoose");
-const { Router } = require("express");
-
-const userRoutes = require("./routes/user");
-const empRoutes = require("./routes/employe");
+const app = express();
 
 app.use("/api/user", userRoutes);
 app.use("/api/employe", empRoutes);
 
 env.config();
-const app = express();
 
 app.use(express.json());
 
@@ -19,7 +17,6 @@ mongoose
   .connect(`${process.env.MONGODB_URI}`, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    useCreateIndex: true,
   })
   .then(() => {
     console.log("database connected");

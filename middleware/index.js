@@ -1,12 +1,13 @@
-const jwt = require("jsonwebtoken");
+import jwt from "jsonwebtoken";
+import parseAndSend from "../util/responseWraper.js";
 
-exports.requireSignin = (req, res, next) => {
-  if (req.headers.authorization) {
+export const isAuth = (req, res, next) => {
+  if (req?.headers?.authorization) {
     const token = req.headers.authorization.split(" ")[1];
     const admin = jwt.verify(token, process.env.JWT_SECRET_KEY);
     req.user = admin;
   } else {
-    return res.status(400).json({ message: "Authorization required" });
+    return parseAndSend(res, false, 400, "Authorization required");
   }
   next();
 };

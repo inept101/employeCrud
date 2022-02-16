@@ -1,18 +1,18 @@
-const express = require("express");
-const router = express.Router();
-const { isSignedin } = require("../middleware/index");
+import express from "express";
+const empRoutes = express.Router();
+import { isAuth } from "../middleware/index.js";
 
-const {
+import {
   getEmpData,
   createEmpData,
   UpdateEmpData,
   deleteEmpData,
-} = require("../controller/employe");
+} from "../controller/employe.js";
 
-router.get("/", isSignedin(), getEmpData());
+empRoutes.get("/", isAuth, getEmpData);
 
-router.post("/", isSignedin(), createEmpData());
-router.patch("/", isSignedin(), UpdateEmpData());
-router.delete("/", isSignedin(), deleteEmpData());
+empRoutes.post("/", isAuth, createEmpData);
+empRoutes.patch("/", isAuth, UpdateEmpData);
+empRoutes.delete("/", isAuth, deleteEmpData);
 
-module.exports = router;
+export default empRoutes;
