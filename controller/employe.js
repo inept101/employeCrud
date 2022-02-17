@@ -13,7 +13,8 @@ export const getEmpData = async (req, res) => {
 };
 export const createEmpData = async (req, res) => {
   try {
-    const { firstName, lastName, email, age, salary } = JSON.parse(req.body);
+    const { firstName, lastName, email, age, salary } = req.body;
+    console.log(req.body);
     const newEmp = await new Employee({
       firstName,
       lastName,
@@ -35,22 +36,20 @@ export const createEmpData = async (req, res) => {
 
 export const UpdateEmpData = async (req, res) => {
   try {
-    const { _id, firstName, lastName, email, age, salary } = JSON.parse(
-      req.body
-    );
+    const { _id, firstName, lastName, email, age, salary } = req.body;
 
-    const { nModified } = await Employee.updateOne(
+    const nModified = await Employee.updateOne(
       { _id },
       {
         $set: { firstName, lastName, email, age, salary },
       }
     );
 
-    if (!nModified) {
-      parseAndSend(
+    if (!nModified.modifiedCount) {
+      return parseAndSend(
         res,
         false,
-        500,
+        502,
         "somthing went wrong with our DB not able to update"
       );
     }
@@ -65,8 +64,9 @@ export const UpdateEmpData = async (req, res) => {
 
 export const deleteEmpData = async (req, res) => {
   try {
-    const { _id } = JSON.parse(req.body);
-    await Employee.deleteOne({ _id });
+    const { id } = req.body;
+    console.log(id);
+    await Employee.deleteOne({ _id: id });
     const empData = await Employee.find({});
     return parseAndSend(res, true, 200, "employee deleted", empData);
   } catch (error) {
