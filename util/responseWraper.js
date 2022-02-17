@@ -5,5 +5,5 @@ export default function parseAndSend(
   message,
   data
 ) {
-  return res.status(statusCode).json({ status, statusCode, message, data });
+  return res.status(statusCode).send({ status, statusCode, message, data });
 }
