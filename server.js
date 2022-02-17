@@ -4,8 +4,12 @@ import mongoose from "mongoose";
 import userRoutes from "./routes/user.js";
 import empRoutes from "./routes/employe.js";
 
+import cors from "cors";
+
 const app = express();
 app.use(express.json());
+
+app.use(cors());
 
 app.use("/api/user", userRoutes);
 app.use("/api/employe", empRoutes);

@@ -4,7 +4,6 @@ import parseAndSend from "../util/responseWraper.js";
 
 export const signIn = async (req, res) => {
   try {
-    console.log("THHIISSSSSSS::::::::::", req.body);
     const user = await User.findOne({ email: req.body.email });
     console.log(user);
     if (!user) {
